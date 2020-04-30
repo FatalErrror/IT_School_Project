@@ -108,6 +108,14 @@
     <Compile Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
     <Compile Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
     <Compile Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\CameraController\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\CameraController\Scripts\Interface.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\CameraController\Scripts\Inventory.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Player\PlayerController.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Spripts\InventoryObject.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Spripts\ResMainScript.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Spripts\Сharacteristic.cs" />
+    <Compile Include="Assets\Game\Statics Scripts\GameController.cs" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\GrainGen.shader" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
@@ -701,6 +709,12 @@
     <Reference Include="Boo.Lang">
       <HintPath>C:/Program Files/Unity/2019.3.7f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{5247BDC5-2C03-9EC8-DDC0-C82164171A90}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
