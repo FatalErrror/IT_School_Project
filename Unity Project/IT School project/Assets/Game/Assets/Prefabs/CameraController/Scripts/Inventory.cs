@@ -8,16 +8,13 @@ public class Inventory
     public Inventory(int size)
     {
         inventories = new InventoryObject[size];
-        for (int i = 0;i < size; i++)
-        {
-            inventories[i] = InventoryObject.Empty;
-        }
     }
 
     public string GetDiscription(int position)
     {
         if (inventories.Length < position) return "Error index don't inside array";
         InventoryObject temp = inventories[position];
+        if (temp == null) return "пусто";
         string value = temp.Name +"\n" + temp.Discription + "\nAction: " + temp.ActionType.ToString() + "\n\n";
         for (int i = 0; i < temp.Сharacteristics.Length; i++)
         {
@@ -31,7 +28,10 @@ public class Inventory
         if (inventories.Length < items.Length) return;
         for (int i = 0; i < items.Length; i++)
         {
-            items[i].sprite = inventories[i].InventoryImage;
+            if (inventories[i] != null)
+                items[i].sprite = inventories[i].InventoryImage;
+            else
+                items[i].sprite = null;
         }
     }
 }

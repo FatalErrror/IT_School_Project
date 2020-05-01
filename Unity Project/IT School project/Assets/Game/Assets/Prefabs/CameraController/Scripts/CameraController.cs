@@ -19,6 +19,8 @@ public class CameraController : MonoBehaviour
 
     public void setISMINE(bool value, PlayerController player)
     {
+        Camera = GetComponentInChildren<Camera>().transform;
+        Interface = GetComponentInChildren<Interface>();
         playerController = player;
         Player = player.transform;
         ISMINE = value;
@@ -26,7 +28,8 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Camera = GetComponentInChildren<Camera>().transform;
+        
+
         Android = Application.platform == RuntimePlatform.Android;
         if (!Android)
         {
@@ -76,10 +79,10 @@ public class CameraController : MonoBehaviour
         Angle = Camera.transform.rotation.eulerAngles.y;
     }
 
-    public void ChangeShift(UnityEngine.UI.Slider Shift)
+    public void ChangeShift(float value)
     {
         Vector3 vector = transform.rotation.eulerAngles;
-        vector.y = Shift.value;
+        vector.y = value;
         Quaternion Q = new Quaternion();
         Q.eulerAngles = vector;
         transform.rotation = Q;

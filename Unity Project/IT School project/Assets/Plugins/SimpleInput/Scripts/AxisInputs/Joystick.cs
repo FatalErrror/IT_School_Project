@@ -48,8 +48,12 @@ namespace SimpleInputNamespace
 		private Vector2 m_value = Vector2.zero;
 		public Vector2 Value { get { return m_value; } }
 
+		private SimpleInputDragListener eventReceiver;
+
+		private Vector3 startPosition;
 		private void Awake()
 		{
+			startPosition = new Vector2(-760, -340);
 			joystickTR = (RectTransform) transform;
 			thumbTR = thumb.rectTransform;
 
@@ -62,7 +66,7 @@ namespace SimpleInputNamespace
 
 			if( isDynamicJoystick )
 			{
-				opacity = 0f;
+				opacity = 1f;
 				thumb.raycastTarget = false;
 
 				OnUpdate();
@@ -77,9 +81,41 @@ namespace SimpleInputNamespace
 			thumbTR.localPosition = Vector3.zero;
 		}
 
+		public void IsDynamicJoystick(bool isOn)
+		{
+			isDynamicJoystick = isOn;
+			if (isDynamicJoystick)
+			{
+				opacity = 1f;
+				thumb.raycastTarget = false;
+
+				OnUpdate();
+			}
+			else
+			{
+				thumb.raycastTarget = true;
+				transform.localPosition = startPosition;
+			}
+				
+
+			if (!isDynamicJoystick)
+			{
+				SimpleInputDragListener temp;
+				if (dynamicJoystickMovementArea.gameObject.TryGetComponent<SimpleInputDragListener>(out temp)) Destroy(temp);
+				eventReceiver = thumbTR.gameObject.AddComponent<SimpleInputDragListener>();
+			}
+			else
+			{
+				SimpleInputDragListener temp;
+				if (thumbTR.gameObject.TryGetComponent<SimpleInputDragListener>(out temp)) Destroy(temp);
+				eventReceiver = dynamicJoystickMovementArea.gameObject.AddComponent<SimpleInputDragListener>();
+			}
+			eventReceiver.Listener = this;
+		}
+
 		private void Start()
 		{
-			SimpleInputDragListener eventReceiver;
+			
 			if( !isDynamicJoystick )
 				eventReceiver = thumbTR.gameObject.AddComponent<SimpleInputDragListener>();
 			else
@@ -172,11 +208,12 @@ namespace SimpleInputNamespace
 
 			xAxis.value = 0f;
 			yAxis.value = 0f;
+			transform.localPosition = startPosition;
 		}
 
 		private void OnUpdate()
 		{
-			if( !isDynamicJoystick )
+			/*if( !isDynamicJoystick )
 				return;
 
 			if( joystickHeld )
@@ -193,7 +230,7 @@ namespace SimpleInputNamespace
 				c = background.color;
 				c.a = opacity;
 				background.color = c;
-			}
+			}*/
 		}
 	}
 }

@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
         Quaternion Q = new Quaternion();
         Q.eulerAngles = new Vector3(0, cameraController.Angle, 0);
         transform.rotation = Q;
-        angle = Q.y;//-180
+        angle = Q.y - 180;
         angle *= Mathf.Deg2Rad;
         movement = new Vector3(
             -joystick.xAxis.value * Mathf.Cos(angle) - joystick.yAxis.value * Mathf.Sin(angle),
@@ -47,7 +47,10 @@ public class PlayerController : MonoBehaviour
             );
 
         transform.Translate(movement * speed * Time.deltaTime);
-        if (Input.acceleration.magnitude > 12) jump();
+        
+        if (Input.acceleration.magnitude > Interface.jumpSensetive.value) jump(); 
+        if (Input.GetKeyUp(KeyCode.Space)) jump();
+
     }
 
 
@@ -58,6 +61,11 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
+    {
+        IsGrounded = true;
+    }
+
+    private void OnCollisionStay(Collision collision)
     {
         IsGrounded = true;
     }
