@@ -112,9 +112,11 @@
     <Compile Include="Assets\Game\Assets\Prefabs\CameraController\Scripts\Interface.cs" />
     <Compile Include="Assets\Game\Assets\Prefabs\CameraController\Scripts\Inventory.cs" />
     <Compile Include="Assets\Game\Assets\Prefabs\Player\PlayerController.cs" />
-    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Spripts\InventoryObject.cs" />
-    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Spripts\ResMainScript.cs" />
-    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Spripts\Сharacteristic.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Resources\PinkPlant\PinkGrass.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Scripts\InventoryObject.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Scripts\ResMainScript.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Scripts\Spawner.cs" />
+    <Compile Include="Assets\Game\Assets\Prefabs\Resources\Scripts\Сharacteristic.cs" />
     <Compile Include="Assets\Game\Statics Scripts\GameController.cs" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\GrainGen.shader" />

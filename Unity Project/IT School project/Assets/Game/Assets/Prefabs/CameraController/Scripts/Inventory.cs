@@ -1,25 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Inventory
 {
-    public InventoryObject[] inventories;
-    public Inventory(int size)
+    public InventoryInformation[] inventories;
+    public Sprite defoultSprite;
+    public Inventory(int size, Sprite defoultSprite)
     {
-        inventories = new InventoryObject[size];
+        inventories = new InventoryInformation[size];
+        this.defoultSprite = defoultSprite;
     }
-
+    public void setItem(int position, InventoryInformation inventoryInformation)
+    {
+        if (inventories.Length < position || position < 0) return;
+        inventories[position] = inventoryInformation;
+    }
+        
     public string GetDiscription(int position)
     {
-        if (inventories.Length < position) return "Error index don't inside array";
-        InventoryObject temp = inventories[position];
+        if (inventories.Length < position || position < 0) return "Error index don't inside array";
+        InventoryInformation temp = inventories[position];
         if (temp == null) return "пусто";
-        string value = temp.Name +"\n" + temp.Discription + "\nAction: " + temp.ActionType.ToString() + "\n\n";
-        for (int i = 0; i < temp.Сharacteristics.Length; i++)
-        {
-            value += "--" + temp.Сharacteristics[i].DiscriptionName + ": " + temp.Сharacteristics[i].value;
-        }
+        string value = temp.Name + "\n" + temp.Discription + "\n\nЧто с этим делать:\n" + temp.ActionType.ToString() + "\n\n";
+        if (temp.Characteristics != null)
+            for (int i = 0; i < temp.Characteristics.Length; i++)
+            {
+                value += "--" + temp.Characteristics[i].DiscriptionName + ": " + temp.Characteristics[i].value;
+            }
         return value;
     }
 
@@ -31,7 +38,33 @@ public class Inventory
             if (inventories[i] != null)
                 items[i].sprite = inventories[i].InventoryImage;
             else
-                items[i].sprite = null;
+                items[i].sprite = defoultSprite;
         }
     }
+
+    public bool isFull()
+    {
+        for (int i = 0; i < inventories.Length; i++)
+        {
+            if (inventories[i] == null) return false;
+        }
+        return true;
+    }
+
+    public bool isFull(out int freePosition)
+    {
+        for (int i = 0; i < inventories.Length; i++)
+        {
+            if (inventories[i] == null)
+            {
+                freePosition = i;
+                return false;
+            }
+
+        }
+        freePosition = -1;
+        return true;
+    }
+
+
 }

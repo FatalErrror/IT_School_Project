@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         transform.Translate(movement * speed * Time.deltaTime);
         
         if (Input.acceleration.magnitude > Interface.jumpSensetive.value) jump(); 
-        if (Input.GetKeyUp(KeyCode.Space)) jump();
+        if (Input.GetKeyDown(KeyCode.Space)) jump();
 
     }
 

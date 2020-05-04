@@ -48,7 +48,7 @@ namespace SimpleInputNamespace
 		private Vector2 m_value = Vector2.zero;
 		public Vector2 Value { get { return m_value; } }
 
-		private SimpleInputDragListener eventReceiver;
+		public SimpleInputDragListener eventReceiver;
 
 		private Vector3 startPosition;
 		private void Awake()
@@ -83,34 +83,7 @@ namespace SimpleInputNamespace
 
 		public void IsDynamicJoystick(bool isOn)
 		{
-			isDynamicJoystick = isOn;
-			if (isDynamicJoystick)
-			{
-				opacity = 1f;
-				thumb.raycastTarget = false;
-
-				OnUpdate();
-			}
-			else
-			{
-				thumb.raycastTarget = true;
-				transform.localPosition = startPosition;
-			}
-				
-
-			if (!isDynamicJoystick)
-			{
-				SimpleInputDragListener temp;
-				if (dynamicJoystickMovementArea.gameObject.TryGetComponent<SimpleInputDragListener>(out temp)) Destroy(temp);
-				eventReceiver = thumbTR.gameObject.AddComponent<SimpleInputDragListener>();
-			}
-			else
-			{
-				SimpleInputDragListener temp;
-				if (thumbTR.gameObject.TryGetComponent<SimpleInputDragListener>(out temp)) Destroy(temp);
-				eventReceiver = dynamicJoystickMovementArea.gameObject.AddComponent<SimpleInputDragListener>();
-			}
-			eventReceiver.Listener = this;
+			canFollowPointer = isOn;
 		}
 
 		private void Start()

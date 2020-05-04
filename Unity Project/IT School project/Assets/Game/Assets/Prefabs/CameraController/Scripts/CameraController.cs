@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     Gyroscope gyro;
     Quaternion rot, attitude;
     bool Android, isPlaying = true;
-    public float Angle;
+    public float Angle, RotateSpeed = 0.5f;
 
     bool ISMINE;
 
@@ -72,8 +72,11 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            Camera.Rotate(0, Input.GetAxis("Horizontal"), 0, Space.World);
-            Camera.Rotate(-Input.GetAxis("Vertical"), 0, 0, Space.Self);
+            if (Input.GetKey(KeyCode.A)) Camera.Rotate(0, -RotateSpeed, 0, Space.World);
+            if (Input.GetKey(KeyCode.D)) Camera.Rotate(0, RotateSpeed, 0, Space.World);
+
+            if (Input.GetKey(KeyCode.S)) Camera.Rotate( RotateSpeed, 0, 0, Space.Self);
+            if (Input.GetKey(KeyCode.W)) Camera.Rotate( -RotateSpeed, 0, 0, Space.Self);
         }
         transform.position = playerController.Head.position;
         Angle = Camera.transform.rotation.eulerAngles.y;
@@ -90,5 +93,15 @@ public class CameraController : MonoBehaviour
     private void OnApplicationPause(bool pause)
     {
         //gyro.enabled = !pause;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "InventoryObject") other.GetComponent<InventoryObject>().ShowName(playerController.transform);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "InventoryObject") other.GetComponent<InventoryObject>().HideName();
     }
 }
