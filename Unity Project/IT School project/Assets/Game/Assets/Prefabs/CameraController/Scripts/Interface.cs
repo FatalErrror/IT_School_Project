@@ -12,6 +12,8 @@ public class Interface : MonoBehaviour
     public Sprite defoultSprite;
     public Transform Buttons;
 
+    public GameObject prefab; // remove this
+
     private string discription { get { return Discription.text; } set { Discription.text = value; } }
 
     [Header("Settings panel")]
@@ -34,6 +36,7 @@ public class Interface : MonoBehaviour
     Inventory inventory;
     int SelectedItem;
     Image[] items;
+    Text[] counts;
     Color dark, standart;
     float HubAngle;
     // Start is called before the first frame update
@@ -42,10 +45,16 @@ public class Interface : MonoBehaviour
         Hit.SetActive(false);
         Hub.SetActive(false);
         items = new Image[Buttons.childCount];
-        for (int i = 0; i < items.Length; i++) items[i] = Buttons.GetChild(i).GetChild(0).GetComponent<Image>();
+        counts = new Text[Buttons.childCount];
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i] = Buttons.GetChild(i).GetChild(0).GetComponent<Image>();
+            counts[i] = Buttons.GetChild(i).GetChild(1).GetComponent<Text>();
+        }
         inventory = new Inventory(items.Length, defoultSprite);
         standart = Buttons.GetChild(0).GetComponent<Image>().color;
-        dark = new Color(29 / 255, 29 / 255, 29 / 255, 1);
+        dark = new Color(1, 1, 1, 1);//  dark( 29 / 255, 29 / 255, 29 / 255, 1)
+
     }
 
     // Update is called once per frame
@@ -71,7 +80,7 @@ public class Interface : MonoBehaviour
         Quaternion quaternion = new Quaternion();
         quaternion.eulerAngles = new Vector3(0, transform.parent.parent.rotation.eulerAngles.y + HubAngle, 0);
         Hub.transform.rotation = quaternion;
-        inventory.Render(items);
+        inventory.Render(items, counts);
         discription = "Инвентарь";
     }
 
@@ -79,9 +88,31 @@ public class Interface : MonoBehaviour
     public void SelectItem(Button button)
     {
         Buttons.GetChild(SelectedItem).GetComponent<Image>().color = standart;
-        SelectedItem = (button.name[4] - '0')-1;
+        int num = System.Convert.ToInt32(button.name.Substring(4, button.name.Length - 5));
+        SelectedItem = num-1;
         button.GetComponent<Image>().color = dark;
         discription = inventory.GetDiscription(SelectedItem);
+
+    }
+
+    public void ThrowOut()
+    {
+        prefab = inventory.inventories[SelectedItem].Prefab;
+        GameObject temp = Instantiate(
+            inventory.inventories[SelectedItem].Prefab,
+            Buttons.GetChild(SelectedItem).position,
+            Quaternion.identity, inventory.inventories[SelectedItem].Parent)
+            .AddComponent<Rigidbody>().gameObject;
+        temp.transform.LookAt(transform);
+        temp.transform.Translate(0,0,-1,Space.Self);
+        inventory.removeItem(SelectedItem);
+        inventory.Render(items, counts);
+        discription = inventory.GetDiscription(SelectedItem);
+    }
+
+    public void Use()
+    {
+
     }
     
     //================ Settings panel ================
@@ -115,16 +146,16 @@ public class Interface : MonoBehaviour
         if (other.tag == "InventoryObject") other.GetComponent<InventoryObject>().setInterface(null);
     }
 
-    public bool CanPickedUp()
+    public bool CanPickedUp(InventoryInformation information)
     {
-        if (inventory.isFull()) return false;
+        if (inventory.isFull(information)) return false;
         else return true;
     }
 
     public void PickedUp(InventoryInformation information)
     {
         int i;
-        inventory.isFull(out i);
+        inventory.isFull(information, out i);
         inventory.setItem(i, information);
     }
 }

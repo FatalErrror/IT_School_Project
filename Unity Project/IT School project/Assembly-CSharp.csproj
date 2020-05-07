@@ -118,6 +118,7 @@
     <Compile Include="Assets\Game\Assets\Prefabs\Resources\Scripts\Spawner.cs" />
     <Compile Include="Assets\Game\Assets\Prefabs\Resources\Scripts\Сharacteristic.cs" />
     <Compile Include="Assets\Game\Statics Scripts\GameController.cs" />
+    <Compile Include="Assets\Game\Statics Scripts\Timer.cs" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\GrainGen.shader" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />

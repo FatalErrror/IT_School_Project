@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
@@ -28,15 +29,14 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-
         Android = Application.platform == RuntimePlatform.Android;
+        /*
         if (!Android)
         {
             Quaternion Q = new Quaternion();
             Q.eulerAngles = new Vector3(0, 90, -90);
             Camera.localRotation = Q;
-        }
+        }*/
         gyro = Input.gyro;
         gyro.enabled = true;
         transform.rotation = Quaternion.Euler(90, 90, 0);
@@ -80,6 +80,11 @@ public class CameraController : MonoBehaviour
         }
         transform.position = playerController.Head.position;
         Angle = Camera.transform.rotation.eulerAngles.y;
+    }
+
+    public void ChangeCameraSensitive(float value)
+    {
+        RotateSpeed = value;
     }
 
     public void ChangeShift(float value)

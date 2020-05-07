@@ -10,11 +10,11 @@ public class InventoryObject : MonoBehaviour
 
     [Header("Сharacteristics")]
     public TypeOfAction ActionType;
+    public int CountInOneSlote = 16;
     public Characteristic[] Characteristics;
 
     [Header("Controle")]
-    public GameObject Prefab;
-
+    public string Prefab;
 
     Transform Controle;
     GameObject NameText;
@@ -27,15 +27,17 @@ public class InventoryObject : MonoBehaviour
     Transform Player, startParent;
     Interface Interface;
 
-    protected delegate void use();
-    protected event use Using;
 
     public virtual void Initialize()
     {
         
     }
 
-    
+    public virtual void Use()
+    {
+
+    }
+
     private void Start()
     {
         Controle = transform.GetChild(0).GetChild(0);
@@ -47,7 +49,7 @@ public class InventoryObject : MonoBehaviour
         PickButton = Controle.GetChild(4).gameObject;
 
         Controle = Controle.parent;
-
+            
         Button.ButtonClickedEvent button = new Button.ButtonClickedEvent();
         button.AddListener(TakeObj);
         TakeButton.GetComponent<Button>().onClick = button;
@@ -68,19 +70,25 @@ public class InventoryObject : MonoBehaviour
         UseButton.SetActive(false);
         NameText.SetActive(false);
         PickButton.SetActive(false);
-        startParent = transform.parent;
-
-        Using += U;
+        //startParent = transform.parent;   
     }
 
     public InventoryInformation GetInventoryInformation()
     {
-        return new InventoryInformation(Name, Discription, InventoryImage, Prefab, ActionType, Characteristics);
+        return new InventoryInformation(
+            Name, 
+            Discription,
+            InventoryImage,
+            ResMainScript.getPrefab(Prefab),
+            ActionType,
+            CountInOneSlote,
+            Characteristics,
+            startParent);
     }
 
     public void setInterface(Interface Interface)
     {
-        PickButton.SetActive(Interface != null);
+        PickButton.SetActive(Interface != null && Interface.PlaceForObjects.childCount == 0);
         this.Interface = Interface;
     }
 
@@ -88,15 +96,25 @@ public class InventoryObject : MonoBehaviour
     {
         if (Interface != null && Interface.PlaceForObjects.childCount == 0)
         {
+            gameObject.layer = 5;
+            /*NameText.transform.SetParent(Controle);
+            UseButton.transform.SetParent(Controle);
+            PutButton.transform.SetParent(Controle);
+            TakeButton.transform.SetParent(Controle);*/
+
             Rigidbody rigidbody;
             if (TryGetComponent(out rigidbody)) Destroy(rigidbody);
-            transform.parent = Interface.PlaceForObjects;
+            transform.SetParent(Interface.PlaceForObjects);
             transform.localPosition = Vector3.zero;
-            if (Interface.CanPickedUp()) TakeButton.SetActive(true);
+            Vector3 position = transform.position - Controle.position;
+            transform.Translate(position, Space.World);
+            
+
+            if (Interface.CanPickedUp(GetInventoryInformation())) TakeButton.SetActive(true);
             if (!(ActionType == (TypeOfAction.Nothing | TypeOfAction.Empty | TypeOfAction.Ingredient))) UseButton.SetActive(true);
             PutButton.SetActive(true);
             PickButton.SetActive(false);
-            ResMainScript.OnUpdate -= OnUpdate;
+            //ResMainScript.OnUpdate -= OnUpdate;
         }
 
     }
@@ -111,10 +129,18 @@ public class InventoryObject : MonoBehaviour
 
     public void PutObj()
     {
+        gameObject.layer = 0;
+        /*Controle = Controle.GetChild(0);
+        NameText.transform.SetParent(Controle);
+        UseButton.transform.SetParent(Controle);
+        PutButton.transform.SetParent(Controle);
+        TakeButton.transform.SetParent(Controle);
+        Controle = Controle.parent;*/
+
         TakeButton.SetActive(false);
         PutButton.SetActive(false);
         UseButton.SetActive(false);
-        transform.parent = startParent;
+        transform.SetParent(startParent);
         gameObject.AddComponent<Rigidbody>();
         ResMainScript.OnUpdate -= OnUpdate;
     }
@@ -124,6 +150,14 @@ public class InventoryObject : MonoBehaviour
         if (transform.parent == startParent) this.Player = Player;
         else this.Player = Player.GetComponent<PlayerController>().Head;
         NameText.SetActive(true);
+        try
+        {
+            ResMainScript.OnUpdate -= OnUpdate;
+        }
+        catch
+        {
+
+        }
         ResMainScript.OnUpdate += OnUpdate;
     }
 
@@ -136,16 +170,7 @@ public class InventoryObject : MonoBehaviour
     public void OnUpdate()
     {
         Controle.LookAt(Player);
-    }
 
-    public void Use()
-    {
-        Using();
-    }
-
-    private void U()
-    {
-        
     }
 
 }
@@ -164,17 +189,28 @@ public class InventoryInformation
     public string Name, Discription;
     public Sprite InventoryImage;
     public TypeOfAction ActionType;
+    public int CountInOneSlote;
     public Characteristic[] Characteristics;
     public GameObject Prefab;
+    public Transform Parent;
 
-    public InventoryInformation(string Name, string Discription, Sprite InventoryImage, GameObject Prefab, TypeOfAction ActionType, Characteristic[] Characteristics)
+    public InventoryInformation(string Name,
+        string Discription, 
+        Sprite InventoryImage, 
+        GameObject Prefab,
+        TypeOfAction ActionType,
+        int CountInOneSlote,
+        Characteristic[] Characteristics,
+        Transform Parent)
     {
         this.Name = Name;
         this.Discription = Discription;
         this.InventoryImage = InventoryImage;
         this.ActionType = ActionType;
+        this.CountInOneSlote = CountInOneSlote;
         this.Characteristics = Characteristics;
         this.Prefab = Prefab;
+        this.Parent = Parent;
     }
 }
 
