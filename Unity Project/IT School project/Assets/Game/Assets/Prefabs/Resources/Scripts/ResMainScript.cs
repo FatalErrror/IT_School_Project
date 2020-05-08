@@ -13,7 +13,7 @@ public class ResMainScript : MonoBehaviour
     static string[] Names;
     // Start is called before the first frame update
 
-    private void Start()
+    private void Awake()
     {
         OnUpdate += onUpdate;
         Names = new string[Prefabs.Length];

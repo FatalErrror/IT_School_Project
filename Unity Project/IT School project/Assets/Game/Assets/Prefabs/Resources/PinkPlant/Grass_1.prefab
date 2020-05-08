@@ -113,6 +113,8 @@ MonoBehaviour:
   InventoryImage: {fileID: 21300000, guid: 46bbd436e0c4ef44ca5b5d3f92960ed9, type: 3}
   ActionType: 1
   CountInOneSlote: 32
+  DestroyAfterPut: 1
+  DealayBeforeDestroy: 30
   Prefab: Grass_1
 --- !u!1001 &1580269098867730355
 PrefabInstance:

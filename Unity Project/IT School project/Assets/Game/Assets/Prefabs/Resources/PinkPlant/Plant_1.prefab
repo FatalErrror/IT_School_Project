@@ -113,6 +113,8 @@ MonoBehaviour:
   InventoryImage: {fileID: 21300000, guid: f5090f82317f24442b8854ec4c8605b7, type: 3}
   ActionType: 4
   CountInOneSlote: 16
+  DestroyAfterPut: 1
+  DealayBeforeDestroy: 30
   Prefab: Plant_1
 --- !u!1001 &6783668293138151081
 PrefabInstance:

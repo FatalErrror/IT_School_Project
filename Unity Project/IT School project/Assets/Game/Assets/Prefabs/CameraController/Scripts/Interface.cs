@@ -1,10 +1,11 @@
 ﻿using SimpleInputNamespace;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Interface : MonoBehaviour
+public class Interface : MonoBehaviour, ISerealizable
 {
     [Header("Inventory panel")]
     public Text Discription;
@@ -55,6 +56,9 @@ public class Interface : MonoBehaviour
         standart = Buttons.GetChild(0).GetComponent<Image>().color;
         dark = new Color(1, 1, 1, 1);//  dark( 29 / 255, 29 / 255, 29 / 255, 1)
 
+
+        Serealizer.LoadData(new ISerealizable[] { this });
+        Debug.Log("Data loaded");
     }
 
     // Update is called once per frame
@@ -108,6 +112,7 @@ public class Interface : MonoBehaviour
         inventory.removeItem(SelectedItem);
         inventory.Render(items, counts);
         discription = inventory.GetDiscription(SelectedItem);
+        temp.GetComponent<InventoryObject>().StartDestroy();
     }
 
     public void Use()
@@ -131,7 +136,10 @@ public class Interface : MonoBehaviour
 
     public void SaveAndOut()
     {
-
+        Serealizer.SavaData(new ISerealizable[] {this });
+        Debug.Log("Data saved");
+        Application.Quit();
+        Debug.Log("Quited");
     }
 
 
@@ -157,5 +165,49 @@ public class Interface : MonoBehaviour
         int i;
         inventory.isFull(information, out i);
         inventory.setItem(i, information);
+    }
+
+
+
+    public string getName()
+    {
+        return "interface";
+    }
+
+    public string[] Serealization()
+    {
+        string[] data = new string[5+items.Length*2];
+        data[0] = shift.value.ToString();
+        data[1] = jumpSensetive.value.ToString();
+        data[2] = aim.isOn.ToString();
+        data[3] = dynemickJoystick.isOn.ToString();
+        data[4] = HubAngle.ToString();
+        for (int i = 5; i < items.Length+5; i++)
+        {
+            data[i] = inventory.inventories[i-5]!=null?inventory.inventories[i-5].Prefab.name:"\n";
+        }
+        for (int i = items.Length + 5; i < items.Length*2+5; i++)
+        {
+            data[i] = inventory.Counts[i-items.Length - 5].ToString();
+        }
+
+        return data;
+    }
+
+    public void Deserealization(string[] data)
+    {
+        shift.value = (float)Convert.ToDouble(data[0]);
+        jumpSensetive.value = (float)Convert.ToDouble(data[1]);
+        aim.isOn = Convert.ToBoolean(data[2]);
+        dynemickJoystick.isOn = Convert.ToBoolean(data[3]);
+        HubAngle = (float)Convert.ToDouble(data[4]);
+        for (int i = 5; i < items.Length + 5; i++)
+        {
+            inventory.inventories[i - 5] = data[i].Equals("\n") ? null : ResMainScript.getPrefab(data[i]).GetComponent<InventoryObject>().GetInventoryInformation();
+        }
+        for (int i = items.Length + 5; i < items.Length * 2 + 5; i++)
+        {
+            inventory.Counts[i - items.Length - 5] = Convert.ToInt32(data[i]);
+        }
     }
 }

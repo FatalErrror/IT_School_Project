@@ -35,7 +35,7 @@ public class Inventory
         if (inventories.Length < position || position < 0) return "Error index don't inside array";
         InventoryInformation temp = inventories[position];
         if (temp == null) return "пусто";
-        string value = temp.Name + "\n" + temp.Discription + "\n\nЧто с этим делать:\n" + temp.ActionType.ToString() + "\n\n";
+        string value = temp.Name + "  x" + Counts[position] + "\n" + temp.Discription + "\n\nЧто с этим делать:\n" + temp.ActionType.ToString() + "\n\n";
         if (temp.Characteristics != null)
             for (int i = 0; i < temp.Characteristics.Length; i++)
             {
@@ -88,7 +88,7 @@ public class Inventory
                     {
                         freePosition = i;
                         return false;
-                    }
+                    }   
         }
         for (int i = 0; i < inventories.Length; i++)
         {

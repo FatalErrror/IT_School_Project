@@ -11,6 +11,8 @@ public class InventoryObject : MonoBehaviour
     [Header("Сharacteristics")]
     public TypeOfAction ActionType;
     public int CountInOneSlote = 16;
+    public bool DestroyAfterPut;
+    public float DealayBeforeDestroy;
     public Characteristic[] Characteristics;
 
     [Header("Controle")]
@@ -26,6 +28,7 @@ public class InventoryObject : MonoBehaviour
     
     Transform Player, startParent;
     Interface Interface;
+    Coroutine DestroyCoroutine;
 
 
     public virtual void Initialize()
@@ -97,10 +100,7 @@ public class InventoryObject : MonoBehaviour
         if (Interface != null && Interface.PlaceForObjects.childCount == 0)
         {
             gameObject.layer = 5;
-            /*NameText.transform.SetParent(Controle);
-            UseButton.transform.SetParent(Controle);
-            PutButton.transform.SetParent(Controle);
-            TakeButton.transform.SetParent(Controle);*/
+            CancelDestroy();
 
             Rigidbody rigidbody;
             if (TryGetComponent(out rigidbody)) Destroy(rigidbody);
@@ -122,20 +122,13 @@ public class InventoryObject : MonoBehaviour
     public void TakeObj()
     {
         Interface.PickedUp(GetInventoryInformation());
-        ResMainScript.OnUpdate -= OnUpdate;
-        ResMainScript.OnUpdate -= OnUpdate;
-        Destroy(gameObject);
+        DestroyThis();
     }
 
     public void PutObj()
     {
         gameObject.layer = 0;
-        /*Controle = Controle.GetChild(0);
-        NameText.transform.SetParent(Controle);
-        UseButton.transform.SetParent(Controle);
-        PutButton.transform.SetParent(Controle);
-        TakeButton.transform.SetParent(Controle);
-        Controle = Controle.parent;*/
+        StartDestroy();
 
         TakeButton.SetActive(false);
         PutButton.SetActive(false);
@@ -150,14 +143,7 @@ public class InventoryObject : MonoBehaviour
         if (transform.parent == startParent) this.Player = Player;
         else this.Player = Player.GetComponent<PlayerController>().Head;
         NameText.SetActive(true);
-        try
-        {
-            ResMainScript.OnUpdate -= OnUpdate;
-        }
-        catch
-        {
-
-        }
+        ResMainScript.OnUpdate -= OnUpdate;
         ResMainScript.OnUpdate += OnUpdate;
     }
 
@@ -173,6 +159,25 @@ public class InventoryObject : MonoBehaviour
 
     }
 
+    public void StartDestroy()
+    {
+        if (DestroyAfterPut)
+            DestroyCoroutine = Timer.DelayCall(DealayBeforeDestroy, DestroyThis, false);
+    }
+
+    public void CancelDestroy()
+    {
+        if (DestroyCoroutine != null)
+            StopCoroutine(DestroyCoroutine);
+    }
+
+    public void DestroyThis()
+    {
+        CancelDestroy();
+        ResMainScript.OnUpdate -= OnUpdate;
+        ResMainScript.OnUpdate -= OnUpdate;
+        Destroy(gameObject);
+    }
 }
 public enum TypeOfAction
 {

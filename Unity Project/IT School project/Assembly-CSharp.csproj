@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AllSkyFree\AllSkyFree_Menu.cs" />
     <Compile Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Assets\Game\Assets\Prefabs\Resources\Scripts\Spawner.cs" />
     <Compile Include="Assets\Game\Assets\Prefabs\Resources\Scripts\Сharacteristic.cs" />
     <Compile Include="Assets\Game\Statics Scripts\GameController.cs" />
+    <Compile Include="Assets\Game\Statics Scripts\Serealizer.cs" />
     <Compile Include="Assets\Game\Statics Scripts\Timer.cs" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\GrainGen.shader" />
@@ -133,6 +135,7 @@
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\TAA.cginc" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
+    <None Include="Assets\AllSkyFree\AllSkyFree_Readme.txt" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\Assets\LowpolySimpleHouse\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />

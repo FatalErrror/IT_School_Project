@@ -1,45 +1,45 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
     public delegate void DelayFunc();
-    static List<Call> Calls;
-    static bool isNewCall;
-    struct Call {
-        public float Duration;
-        public DelayFunc delayFunc;
-        public Call(float Duration, DelayFunc delayFunc)
-        {
-            this.Duration = Duration;
-            this.delayFunc = delayFunc;
-        }
-    }
-    public static void DelayCall(float Duration, DelayFunc delayFunc)
+    delegate Coroutine Call(float Duration, DelayFunc delayFunc, bool UnScaledTime);
+    static event Call NewCall;
+
+    public static Coroutine DelayCall(float Duration, DelayFunc delayFunc)
     {
-        Calls.Add(new Call(Duration, delayFunc));
-        isNewCall = true;
+        return NewCall(Duration, delayFunc, true);
     }
 
-    public void FixedUpdate()
+    public static Coroutine DelayCall(float Duration, DelayFunc delayFunc, bool UnScaledTime)
     {
-        if (isNewCall)
-        {
-            while (Calls.Count > 0) 
-            {
-                StartCoroutine("timer", Calls[0]);
-                Calls.RemoveAt(0);
-            }
-        }
+        return NewCall(Duration, delayFunc, UnScaledTime);
     }
 
-    private IEnumerable timer(Call call)
+    void Start()
     {
-        yield return new WaitForSecondsRealtime(call.Duration);
+        NewCall += call;
+    }
+
+    public Coroutine call(float Duration, DelayFunc delayFunc, bool UnScaledTime)
+    {
+        CallData = (Duration, delayFunc, UnScaledTime);
+        return StartCoroutine(timer());
+    }
+
+
+    (float, DelayFunc, bool) CallData;
+
+    public IEnumerator timer()
+    {
+        if (CallData.Item3)
+            yield return new WaitForSecondsRealtime(CallData.Item1);
+        else
+            yield return new WaitForSeconds(CallData.Item1);
         try
         {
-            call.delayFunc();
+            CallData.Item2();
         }
         catch { }
     }
