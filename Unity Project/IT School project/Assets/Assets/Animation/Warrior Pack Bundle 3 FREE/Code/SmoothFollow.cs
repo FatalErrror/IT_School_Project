@@ -8,7 +8,7 @@ public class SmoothFollow : MonoBehaviour
 	
 	#region Public Properties
 	public bool LockX;
-	public float offSetZ;
+	public float offSetX;
 	public bool LockY;
 	public bool LockZ;
 	public bool useSmoothing;
@@ -26,6 +26,7 @@ public class SmoothFollow : MonoBehaviour
 	private void Awake()
 	{
 		thisTransform = transform;
+		
 		velocity = new Vector3(0.5f, 0.5f, 0.5f);
 	}
 
@@ -58,9 +59,9 @@ public class SmoothFollow : MonoBehaviour
 		
 		if (useSmoothing)
 		{
-			newPos.x = Mathf.SmoothDamp(thisTransform.position.x, target.position.x, ref velocity.x, SMOOTH_TIME);
+			newPos.x = Mathf.SmoothDamp(thisTransform.position.x, target.position.x + offSetX, ref velocity.x, SMOOTH_TIME);
 			newPos.y = Mathf.SmoothDamp(thisTransform.position.y, target.position.y, ref velocity.y, SMOOTH_TIME);
-			newPos.z = Mathf.SmoothDamp(thisTransform.position.z, target.position.z + offSetZ, ref velocity.z, SMOOTH_TIME);
+			newPos.z = Mathf.SmoothDamp(thisTransform.position.z, target.position.z, ref velocity.z, SMOOTH_TIME);
 		}
 		else
 		{

@@ -66,7 +66,10 @@
     <Compile Include="Assets\Assets\AllSkyFree\AllSkyFree_Menu.cs" />
     <Compile Include="Assets\Assets\Animation\Warrior Pack Bundle 3 FREE\Code\IKHands.cs" />
     <Compile Include="Assets\Assets\Animation\Warrior Pack Bundle 3 FREE\Code\SmoothFollow.cs" />
+    <Compile Include="Assets\Assets\Animation\Warrior Pack Bundle 3 FREE\Code\WarriorAnimationDemo.cs" />
     <Compile Include="Assets\Assets\Animation\Warrior Pack Bundle 3 FREE\Code\WarriorAnimationDemoFREE.cs" />
+    <Compile Include="Assets\Assets\Effects\KY_effects\Script\ConGUI.cs" />
+    <Compile Include="Assets\Assets\Effects\KY_effects\Script\Lighting.cs" />
     <Compile Include="Assets\Assets\Model\LowpolySimpleHouse\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\Assets\Model\LowpolySimpleHouse\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\Assets\Model\LowpolySimpleHouse\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -140,6 +143,8 @@
     <None Include="Assets\Assets\Model\LowpolySimpleHouse\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
     <None Include="Assets\Assets\Model\LowpolySimpleHouse\PostProcessing\Resources\Shaders\TAA.cginc" />
     <None Include="Assets\Assets\Model\LowpolySimpleHouse\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+    <None Include="Assets\Assets\Effects\KY_effects\MagicEffectsPackFree\ReadMe.txt" />
+    <None Include="Assets\Assets\Animation\Frank_Mage\Documentation\Frank_Mage_Motion_List.txt" />
     <None Include="Assets\Assets\Model\Village\Materials\Shaders\DiffuseVertexColor.shader" />
     <None Include="Assets\Assets\Model\LowpolySimpleHouse\PostProcessing\Editor Resources\Monitors\VectorscopeCompute.compute" />
     <None Include="Assets\Assets\AllSkyFree\AllSkyFree_Readme.txt" />
